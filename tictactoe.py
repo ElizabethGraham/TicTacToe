@@ -2,6 +2,7 @@ class TicTacToe:
 
     def __init__(self):
         self.xTurn = True
+        self.turn_count = 0
         self.win_flag = False
         self.quit_flag = False
         self.game_pieces = ['X', 'O']
@@ -25,12 +26,14 @@ class TicTacToe:
 
     def main(self):
         while True:
-            if (self.quit_flag):
+            if self.quit_flag or self.win_flag:
                 break  # If the user decided to quit, break the loop.
 
             self.print_board()  # Print out the ASCII board and current state
             self.take_move_input()  # Take the move input from user
-            self.check_win()  # Check if a win condition has been met
+            self.turn_count += 1
+            if self.turn_count >= 5:  # After a win is possible...
+                self.check_win()  # ...Check if a win condition has been met
             self.xTurn = not self.xTurn  # Change the turn
             
             
@@ -50,8 +53,10 @@ class TicTacToe:
                 if self.move_list[self.coordinates[current_move]] == "-":
                     if self.xTurn:
                         self.move_list[self.coordinates[current_move]] = self.game_pieces[0]
+                        self.print_board()  # Update the board
                     else: 
                         self.move_list[self.coordinates[current_move]] = self.game_pieces[1]
+                        self.print_board()  # Update the board
                 else:
                     print("That space has already been played. Try again.")
                     input("Press enter to continue...")
@@ -81,11 +86,12 @@ class TicTacToe:
         win_conditions = [(0,1,2), (3,4,5), (6,7,8), (0,3,6), (1,4,7), (2,5,8), (0,4,8), (2,4,6)]  # All possible win conditions
         
         for idx, tup in enumerate(win_conditions):
-            if self.move_list[tup[0]] in self.game_pieces and tup[0] == tup[1] and tup [1] == tup[2]:
+            if self.move_list[tup[0]] in self.game_pieces and self.move_list[tup[0]] == self.move_list[tup[1]] and self.move_list[tup [1]] == self.move_list[tup[2]]:
                 self.win_flag = True
                 print("Game has been won")
-            pass
-        print("No Win Yet")
+                break
+            else:
+                pass
 
 if __name__ == '__main__':
     ttt = TicTacToe()
