@@ -46,7 +46,7 @@ class TicTacToe:
         current_move = input("Enter move coordinates: ")
 
         if (current_move == 'quit'):
-            print ("User wants to quit")
+            print ("Game Over")
             self.quit_flag = True
         else:
             if (current_move.lower() in self.coordinates):
